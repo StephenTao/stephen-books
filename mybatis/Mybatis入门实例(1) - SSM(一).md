@@ -182,7 +182,8 @@ public class User {
 
 </mapper>
 ```
-其他属性介绍：
+其他属性介绍:
+-----------
 1. **flushCache**:  将其设置为 true,不论语句什么时候被带哦用,都会导致缓存被清空。默认值:false。
 2. **timeout**: 这个设置驱动程序等待数据库返回请求结果, 并抛出异常时间的最大等待值。默认不设置(驱动自行处理)。
 3. **statementType**:  STA TEMENT,PREPARED 或 CALLABLE 的一种。这会让 MyBatis 使用选择使用 Statement,PreparedStatement 或 CallableStatement。默认值:PREPARED。

@@ -27,7 +27,10 @@ setTimeout(function() {
 }, 20);
 
 fn();
+```
 
+
+```
 --------------------------------------------
 VM964:7 undefined
 VM964:8 function fn() {
@@ -41,3 +44,4 @@ VM964:2 10
 VM964:14 setTImeout 10ms.
 VM964:25 setTimeout 20ms.
 ```
+

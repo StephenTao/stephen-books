@@ -1,6 +1,6 @@
 ### 1. PHP数组Array按其中一个字段排序 ### 
 
-```
+```php
 /**
 * Sort array by filed and type, common utility method.
 * @param array $data
@@ -23,7 +23,7 @@ public function sortByOneField($data, $filed, $type)
 
 ### 2.PHP数组Array2个字段排序，先按第一个字段排序，再按第二个字段排序 ###
 
-```
+```php
 /**
  * Sort array by filed and type, common utility method.
  * @param array $array
@@ -52,7 +52,7 @@ public function sortByTwoFiled($data, $filed1, $type1, $filed2, $type2)
 2. sortArrayMultiFields（$data, [‘score’ => SORT_DESC, ‘count’ => SORT_ASC]）
 3. sortArrayMultiFields（$data, [‘score’ => SORT_DESC, ‘count’ => SORT_ASC, ‘name’ => SORT_ASC]）
 
-```
+```php
 /**
  * Sort multi array by filed and type.
  * @param data $array

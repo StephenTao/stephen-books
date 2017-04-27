@@ -1,4 +1,4 @@
-## 1. PHP数组Array按其中一个字段排序 ## 
+### 1. PHP数组Array按其中一个字段排序 ### 
 
 ```
 /**
@@ -21,7 +21,7 @@ public function sortByOneField($data, $filed, $type)
 
 ```
 
-## 2.PHP数组Array2个字段排序，先按第一个字段排序，再按第二个字段排序 ##
+### 2.PHP数组Array2个字段排序，先按第一个字段排序，再按第二个字段排序 ###
 
 ```
 /**
@@ -46,7 +46,7 @@ public function sortByTwoFiled($data, $filed1, $type1, $filed2, $type2)
 }
 ```
 
-## 3. 扩展方法sortMultiArray（）最多支持对数组3个字段排序，当然可以扩充的,自定义方法重载实现对多维数字的排序。 ##
+### 3. 扩展方法sortMultiArray（）最多支持对数组3个字段排序，当然可以扩充的,自定义方法重载实现对多维数字的排序。 ###
 使用方法:
 1. sortArrayMultiFields（$data, [‘score’ => SORT_DESC]）
 2. sortArrayMultiFields（$data, [‘score’ => SORT_DESC, ‘count’ => SORT_ASC]）

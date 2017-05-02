@@ -32,6 +32,10 @@ document.getElementById('#foo').addEventListener('click', function() {
 <button id="foo" onclick="dosomething()">Bar</button>
 ```
 * 不建议使用方式三，html前端和js前端的工作混在了一起，难以分离工作任务，进而难以维护。
+* onclick 属性不适用以下元素：
+```html
+<base>、<bdo>、<br>、<head>、<html>、<iframe>、<meta>、<param>、<script>、<style> 或 <title>。
+```
 
 
 ## 区别：

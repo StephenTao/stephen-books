@@ -1,7 +1,7 @@
 # stephen-books
 All my Study docs
 
-## apache
+## Apache
 * [httpd配置](https://github.com/StephenTao/stephen-books/blob/master/apache/httpd%E9%85%8D%E7%BD%AE.md)
 
 ## JS

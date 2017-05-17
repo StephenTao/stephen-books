@@ -1,22 +1,21 @@
 
-### 1. **Mybatis**
----
+## 1. **Mybatis简介**
 MyBatis 是支持普通 SQL查询，存储过程和高级映射的优秀持久层框架。MyBatis 消除了几乎所有的JDBC代码和参数的手工设置以及结果集的检索。MyBatis 使用简单的 XML或注解用于配置和原始映射，将接口和 Java 的POJOs（Plain Old Java Objects，普通的 Java对象）映射成数据库中的记录。
 每个MyBatis应用程序主要都是使用SqlSessionFactory实例的，一个SqlSessionFactory实例可以通过SqlSessionFactoryBuilder获得。SqlSessionFactoryBuilder可以从一个xml配置文件或者一个预定义的配置类的实例获得。
 用xml文件构建SqlSessionFactory实例是非常简单的事情。推荐在这个配置中使用类路径资源（classpath resource)，但你可以使用任何Reader实例，包括用文件路径或file://开头的url创建的实例。MyBatis有一个实用类----Resources，它有很多方法，可以方便地从类路径及其它位置加载资源。
 
-### 2.  **开始前准备**
+## 2. **开始前准备**
 ---
-#### 2.1 创建测试项目，普通java项目或者是JavaWeb项目均可
+### 2.1 创建测试项目，普通java项目或者是JavaWeb项目均可
 ![这里写图片描述](http://img.blog.csdn.net/20160227230004435)
-#### 2.2 添加依赖jar包
- 1.  mybatis：**mybatis-3.2.0.jar**
- 2.  mysql: **mysql-connector-java-5.1.25.jar** 连接数据库
- 3.  log4j: **log4j-1.2.13.jar** 测试时需要
+### 2.2 添加依赖jar包
+* mybatis：**mybatis-3.2.0.jar**
+* mysql: **mysql-connector-java-5.1.25.jar** 连接数据库
+* log4j: **log4j-1.2.13.jar** 测试时需要
  
  ![这里写图片描述](http://img.blog.csdn.net/20160227230642177)
 
-#### 2.3 数据库准备
+### 2.3 数据库准备
 ```sql
 CREATE DATABASE mybatis;
 USE mybatis;
@@ -29,13 +28,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB CHARSET=utf8;
 ```
 
-### 3.  **Mybatis**实例入门
+## 3.  **Mybatis**实例入门
 
-#### 3.1  整体代码结构
+### 3.1  整体代码结构
 
 ![这里写图片描述](http://img.blog.csdn.net/20160227231106353)
 
-#### 3.2 创建实体对象**User.java**
+### 3.2 创建实体对象**User.java**
 ```java
 package com.stephen.mybatis.model;
 
@@ -77,7 +76,7 @@ public class User {
 
 ```
 
-#### 3.2  添加mybatis配置文件**mybatis-config.xml**
+### 3.2  添加mybatis配置文件**mybatis-config.xml**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -126,7 +125,7 @@ public class User {
 </configuration>
 ```
 
-#### 3.3 添加实体对象的Mapper文件**UserMapper.xml**
+### 3.3 添加实体对象的Mapper文件**UserMapper.xml**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -182,16 +181,16 @@ public class User {
 
 </mapper>
 ```
-其他属性介绍:
------------
-1. **flushCache**:  将其设置为 true,不论语句什么时候被带哦用,都会导致缓存被清空。默认值:false。
-2. **timeout**: 这个设置驱动程序等待数据库返回请求结果, 并抛出异常时间的最大等待值。默认不设置(驱动自行处理)。
-3. **statementType**:  STA TEMENT,PREPARED 或 CALLABLE 的一种。这会让 MyBatis 使用选择使用 Statement,PreparedStatement 或 CallableStatement。默认值:PREPARED。
-4. **useGeneratedKeys**:  ( 仅 对 insert 有 用 ) 这 会 告 诉 MyBatis 使 用 JDBC 的 getGeneratedKeys 方法来取出由数据(比如:像 MySQL 和 SQL Server 这样的数据库管理系统的自动递增字段)内部生成的主键。默认值:false。
-5.  **keyProperty** :(仅对 insert 有用) 标记一个属性, MyBatis 会通过 getGeneratedKeys 或者通过 insert 语句的 selectKey 子元素设置它的值。默认: 不设置。
-6. **keyColumn**: (仅对 insert 有用) 标记一个属性, MyBatis 会通过 getGeneratedKeys 或者通过 insert 语句的 selectKey 子元素设置它的值。默认: 不设置。
+**其他属性介绍**:
 
-#### 3.4 测试类**Mian.java**
+* **flushCache**:  将其设置为 true,不论语句什么时候被带哦用,都会导致缓存被清空。默认值:false。
+* **timeout**: 这个设置驱动程序等待数据库返回请求结果, 并抛出异常时间的最大等待值。默认不设置(驱动自行处理)。
+* **statementType**:  STA TEMENT,PREPARED 或 CALLABLE 的一种。这会让 MyBatis 使用选择使用 Statement,PreparedStatement 或 CallableStatement。默认值:PREPARED。
+* **useGeneratedKeys**:  ( 仅 对 insert 有 用 ) 这 会 告 诉 MyBatis 使 用 JDBC 的 getGeneratedKeys 方法来取出由数据(比如:像 MySQL 和 SQL Server 这样的数据库管理系统的自动递增字段)内部生成的主键。默认值:false。
+* **keyProperty** :(仅对 insert 有用) 标记一个属性, MyBatis 会通过 getGeneratedKeys 或者通过 insert 语句的 selectKey 子元素设置它的值。默认: 不设置。
+* **keyColumn**: (仅对 insert 有用) 标记一个属性, MyBatis 会通过 getGeneratedKeys 或者通过 insert 语句的 selectKey 子元素设置它的值。默认: 不设置。
+
+### 3.4 测试类**Mian.java**
 
 ```java
 package com.stephen.mybatis;
@@ -281,7 +280,6 @@ public class Main {
 ```
 
 ### 4 测试结果
----
 ```
 log4j:WARN No appenders could be found for logger (org.apache.ibatis.logging.LogFactory).
 log4j:WARN Please initialize the log4j system properly.
@@ -292,5 +290,5 @@ delete user id:9
 null
 
 ```
----
+
 [**GitHub代码参考下载地址**](https://github.com/StephenTao/mybatis_demo)

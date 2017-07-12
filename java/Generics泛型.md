@@ -47,4 +47,8 @@ List<Object>不是List<String>的父类型，List<Integer>不是List<Number>的�
 
 
 ## 参考
+[Java 泛型](http://wiki.jikexueyuan.com/project/java-special-topic/generic.html)  
+
+[Java泛型详解](http://www.importnew.com/24029.html)  
+
 [Java语法糖（3）：泛型](http://www.importnew.com/22529.html)

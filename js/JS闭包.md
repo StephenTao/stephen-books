@@ -40,3 +40,36 @@ var myStatus = Status("ok");
 console.log(myStatus.get_status());
 ```
 * 当Status函数返回时，get_status方法依然可以访问status，函数可以访问它被创建时所处的上下文环境。
+
+### 补充实例
+
+```javascript  
+var fn = function() {
+    var n = 0;
+    
+    add = function() {
+        n++;
+    }
+    
+    f2 = function () {
+        console.log(n);
+    }
+    
+    return f2;
+}  
+
+var test = fn();
+test();//输出0
+add();//可以执行函数
+test();// 此刻输出1
+var test1 = fn();
+test1();// 输出0
+test();//输出1
+add();
+test1();//输出1
+test();//输出1
+```
+* 当函数fn返回后，我们依然可以访问add(),还可以访问并维护它创建时的上下为数据n。
+* 如果我再创建一个test1 = fn(); test()依然可以执行，找到最近的数据n，但是我们在执行add()时，add执行的就是test1的add().
+* add()因为没写 var/let 所以相当于window声明，后面任意时刻都可以调用
+

@@ -73,3 +73,6 @@ test();//输出1
 * 如果我再创建一个test1 = fn(); test()依然可以执行，找到最近的数据n，但是我们在执行add()时，add执行的就是test1的add().
 * add()因为没写 var/let 所以相当于window声明，后面任意时刻都可以调用
 
+
+### 参考
+1. [学习Javascript闭包（Closure）](http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html)

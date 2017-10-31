@@ -116,12 +116,13 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     /**
      * The maximum capacity, used if a higher value is implicitly specified
      * by either of the constructors with arguments.
-     * MUST be a power of two <= 1<<30.
+     * MUST be a power of two <= 1<<30. 最大容量 <= 2的30次
      */
     static final int MAXIMUM_CAPACITY = 1 << 30;
 
     /**
      * The load factor used when none specified in constructor.
+     * 加载因子
      */
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
 

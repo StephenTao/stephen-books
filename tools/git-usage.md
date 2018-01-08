@@ -14,9 +14,9 @@
 * 将.ssh 文件夹下的pub key添加到gitHub SSH key是中。
 #### 1.6 创建远程仓库。获取项目SSH路径。
 #### 1.7 关联本地和远程仓库
-`$ git remote add origin git@github.com:yourdom/yourproject.git`
+* `$ git remote add origin git@github.com:yourdom/yourproject.git`
 #### 1.8 提交本地仓库代码到远程
-`$ git push -u origin master`
+* `$ git push -u origin master`
 
 ### 2. Command usage
 

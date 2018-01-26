@@ -82,3 +82,4 @@ class PortalSessionService {
 
 ### 参考
 * [【Java 并发】详解 ThreadLocal](https://www.cnblogs.com/zhangjk1993/archive/2017/03/29/6641745.html)
+* [Java并发编程：深入剖析ThreadLocal](http://www.importnew.com/17849.html)

@@ -7,7 +7,44 @@
             
 ### 3.  Examples
 
-#### Example 1: Common function `updateRiskAnalysis`
+#### Example 0 : How to use? Your code structure is as follows.
+* backend
+```java
+package com.*.handler
+... //ignore code
+
+class SomeHandler extends PartialSaveBaseHandler {
+  ... //ignore code
+  
+  @JsonRpcRunAsInternalGWUser
+  @JsonRpcMethod
+  public function updateSomePart(quoteID: String, draftDataDto: DraftDataDTO) : DraftDataDTO {
+     //1. Get policyPeriod 
+     var job = getJob(quoteID)
+     var policyPeriod = job.ResultingBoundPeriod == null ? QuoteUtil.getBasePeriod(job) : job.ResultingBoundPeriod
+     
+     var result = returnResultWithValidation(policyPeriod, draftDataDto, \period -> {
+        gw.transaction.Transaction.runWithNewBundle(\ bundle -> {
+        init_update(bundle,period,draftDataDto)
+        //2. update some part data logic
+        doSomePartUpdateFn()
+      })
+      //3. Reacquire SomePart DTO data
+      draftDataDto.SomePart = getSomePartDTOFn()
+      //4. Reacquire some DraftDataDTO need updeted, such as PeriodStatus. 
+      draftDataDto.PeriodStatus = period.Status//this filed when submission Quoted back to update SomePart will change to Draft.
+      
+      return draftDataDto
+    })
+    return result
+  }
+  
+  ... //ignore code
+} 
+
+```
+
+#### Example 1 : Common function `updateRiskAnalysis`
 
 * Example 1-backend 
   * Add updateRiskAnalysis in PartialSaveHandler
@@ -15,10 +52,10 @@
 ```java
 package com.mig.edge.capabilities.quote.lob.common.handler
 
-...
+... //ignore code
 
 class PartialSaveHandler extends PartialSaveBaseHandler {
-  ...
+  ... //ignore code
   
   @JsonRpcRunAsInternalGWUser
   @JsonRpcMethod
@@ -40,6 +77,6 @@ class PartialSaveHandler extends PartialSaveBaseHandler {
     return result
   }
   
-  ...
+  ... //ignore code
 }
 ```

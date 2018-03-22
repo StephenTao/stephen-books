@@ -45,19 +45,18 @@ class SomeHandler extends PartialSaveBaseHandler {
 * Frontend code structure
 ```javascript
 function partialSave(){
-    //1. Params
-    var params = {
-        quoteID: $scope.quoteandbind.submission.quoteID,
-        draftDataDTO: $scope.quoteandbind.submission.draftData
+    //1. get the params, hideProgressMsg is not required
+    var hideProgressMsg, quoteID, draftDataDto;
+    //2. do save function
+    var saveFunction = function () {
+        return XXXService.updateSomePart(quoteID, draftDataDto);
     };
-    //2. Use common partail save method in WizadFlowCtl.js
-    $scope.partialSaveSubmissionWithValidation(
-        _.partial(CommonCustomService.updateRiskAnalysis,'quoteandbind',params),
-        _.partial(function (partialSavedData) {
-            $scope.quoteandbind.submission.draftData.riskAnalysis = partialSavedData.riskAnalysis;
-            setLineValidationResult();
-        }, _)
-    );
+    //3. save success call back function, do customer logic
+    var afterSaveProcess = function(partialSavedData) {
+        //update current modelAndView and handel validation result.
+    }
+    //4. Use common partail save method in WizadFlowCtl.js
+    $scope.partialSaveSubmissionWithValidation(saveFunction, afterSaveProcess, hideProgressMsg);
 }
 ```
 

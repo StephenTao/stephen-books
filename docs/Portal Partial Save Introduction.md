@@ -8,7 +8,7 @@
 ### 3.  Examples
 
 #### Example 0 : How to use? Your code structure is as follows.
-* backend
+* Backend code structure
 ```java
 package com.*.handler
 ... //ignore code
@@ -41,8 +41,26 @@ class SomeHandler extends PartialSaveBaseHandler {
   
   ... //ignore code
 } 
-
 ```
+* Frontend code structure
+```javascript
+function partialSave(){
+    //1. Params
+    var params = {
+        quoteID: $scope.quoteandbind.submission.quoteID,
+        draftDataDTO: $scope.quoteandbind.submission.draftData
+    };
+    //2. Use common partail save method in WizadFlowCtl.js
+    $scope.partialSaveSubmissionWithValidation(
+        _.partial(CommonCustomService.updateRiskAnalysis,'quoteandbind',params),
+        _.partial(function (partialSavedData) {
+            $scope.quoteandbind.submission.draftData.riskAnalysis = partialSavedData.riskAnalysis;
+            setLineValidationResult();
+        }, _)
+    );
+}
+```
+
 
 #### Example 1 : Common function `updateRiskAnalysis`
 
@@ -79,4 +97,26 @@ class PartialSaveHandler extends PartialSaveBaseHandler {
   
   ... //ignore code
 }
+```
+
+* Example 1-Frontend 
+
+```javascript
+... //ignore code
+function partialSave(){
+    //1. Params
+    var params = {
+        quoteID: $scope.quoteandbind.submission.quoteID,
+        draftDataDTO: $scope.quoteandbind.submission.draftData
+    };
+    //2. Use common partail save method in WizadFlowCtl.js
+    $scope.partialSaveSubmissionWithValidation(
+        _.partial(CommonCustomService.updateRiskAnalysis,'quoteandbind',params),
+        _.partial(function (partialSavedData) {
+            $scope.quoteandbind.submission.draftData.riskAnalysis = partialSavedData.riskAnalysis;
+            setLineValidationResult(); // handle validation result
+        }, _)
+    );
+}
+... //ignore code
 ```

@@ -47,7 +47,7 @@ class SomeHandler extends PartialSaveBaseHandler {
 function partialSave(){
     //1. get the params, hideProgressMsg is not required
     var hideProgressMsg, quoteID, draftDataDto;
-    //2. do save function
+    //2. do save customer function
     var saveFunction = function () {
         return XXXService.updateSomePart(quoteID, draftDataDto);
     };

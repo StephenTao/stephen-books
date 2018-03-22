@@ -64,6 +64,7 @@ function partialSave(){
 #### Example 1 : Common function `updateRiskAnalysis`
 
 * Example 1-backend 
+`C:\MIGGWProject\Workspace\r1\PolicyCenter\modules\configuration\gsrc\com\mig\edge\capabilities\quote\lob\common\handler\PartialSaveHandler.gs`
   * Add updateRiskAnalysis in PartialSaveHandler
   * The method handler need extends from PartialSaveBaseHandler, in  PartialSaveBaseHandler have some common methods.
 ```java
@@ -99,6 +100,7 @@ class PartialSaveHandler extends PartialSaveBaseHandler {
 ```
 
 * Example 1-Frontend 
+`C:\MIGPortalDevelopment\EdgeGatewayPortal\app\customer\js\src\edge\quoteandbind\common\controllers\WireFrameRiskAnalysisCtrl.js`
 
 ```javascript
 ... //ignore code

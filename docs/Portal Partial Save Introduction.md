@@ -59,7 +59,7 @@ Function Parameters:
 * `callback`: Optional, handle response validation result or special logic.
 * `hideProgressMsg`: Optional, flag if show mask modal
 
-This method is a further encapsulation of the `partialSaveSubmissionWithValidation` method. This method has synchronized to the front-end data with the updated response data. When we use `defaultPartailSave` we only need to care about the implementation of the update method and additional logic processing after the update is successful.
+This method is a further encapsulation of the `partialSaveSubmissionWithValidation` method. This method has synchronized to the front-end data with the updated response data. When we use `defaultPartailSave` we only need to care about the implementation of the update method and additional logic processing after the update is successful. So we recommend using `defaultPartailSave`.
 
 ```javascript
 ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){

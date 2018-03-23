@@ -200,4 +200,12 @@ function partialSave(){
     );
 }
 ... //ignore code
+
+//if use deafultPartialSave like this
+function defaultPartailSave() {
+    $scope.defaultPartailSave(
+        CommonCustomService.updateRiskAnalysis, 
+        setLineValidationResult()
+    );
+}
 ```

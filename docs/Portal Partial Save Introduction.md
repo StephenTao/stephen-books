@@ -58,6 +58,9 @@ Function Parameters:
 * `func`: Required, do partail update function
 * `callback`: Optional, handle response validation result or special logic.
 * `hideProgressMsg`: Optional, flag if show mask modal
+
+This method is a further encapsulation of the `partialSaveSubmissionWithValidation` method. This method has synchronized to the front-end data with the updated response data. When we use `defaultPartailSave` we only need to care about the implementation of the update method and additional logic processing after the update is successful.
+
 ```javascript
 ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){
     var params = {
@@ -71,8 +74,7 @@ ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){
     var savePromise = $scope.partialSaveSubmissionWithValidation(
         _.partial(func,'quoteandbind',params),
         _.partial(function (partialDraftData) {
-        
-            ...//ignore code sync common backend data to forntend
+            ...//ignore code sync updated data to forntend
             if((callback != null && typeof callback === 'function')){
                 callback(hideProgressMsg);
             }

@@ -1,24 +1,25 @@
-## Portal Partial Save Introduction
+# Portal Partial Save Introduction
 
-##### Document Control - Amendment History
+#### Document Control - Amendment History
 |Version Number|Description of Change| Person Making Change | Date      |
 | :-------------: | :-------------------| :----------------: | --------- |
 | 1.0      | initialization      |  Stephen Huang   | 3/20/2018 |
             
-### 2. Partial save common logic handle      
+## 2. Partial save common logic handle      
 
-#### 2.1 Backend code
+### 2.1 Backend code
 ```java
 
 ```
 
-#### 2.2 Frontend code
+### 2.2 Frontend code
 `C:\MIGPortalDevelopment\EdgeGatewayPortal\app\customer\js\src\edge\quoteandbind\common\controllers\WizardFlowCtrl.js`
 
-##### 2.2.1 function partialSaveSubmissionWithValidation
-* `saveFunction`: do update function
-* `afterSaveProcess`: do saveFunction success will do afterSaveProcess function, handle response data.
-* `hideProgressMsg`: flag if show mask modal
+#### 2.2.1 Function partialSaveSubmissionWithValidation()
+Function Parameters:
+* `saveFunction`: Required, do update function
+* `afterSaveProcess`: Optional, do saveFunction success will do afterSaveProcess function, handle response data.
+* `hideProgressMsg`: Optional, flag if show mask modal
 ```javascript
 ctrl.partialSaveSubmissionWithValidation = function (saveFunction,afterSaveProcess,hideProgressMsg) {
     var deferred = $q.defer();
@@ -52,9 +53,39 @@ ctrl.partialSaveSubmissionWithValidation = function (saveFunction,afterSaveProce
 };
 ```
 
-### 3. Examples
+#### 2.2.2 Function defaultPartailSave()
+Function Parameters:
+* `func`: Required, do partail update function
+* `callback`: Optional, handle response validation result or special logic.
+* `hideProgressMsg`: Optional, flag if show mask modal
+```javascript
+ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){
+    var params = {
+        quoteID: $scope.quoteandbind.submission.quoteID,
+        sessionUUID: $scope.quoteandbind.submission.sessionUUID,
+        draftDataDTO: $scope.quoteandbind.submission.draftData
+    };
+    if(hideProgressMsg == null){
+        hideProgressMsg = false;
+    }
+    var savePromise = $scope.partialSaveSubmissionWithValidation(
+        _.partial(func,'quoteandbind',params),
+        _.partial(function (partialDraftData) {
+        
+            ...//ignore code sync common backend data to forntend
+            if((callback != null && typeof callback === 'function')){
+                callback(hideProgressMsg);
+            }
+         }, _),
+         hideProgressMsg
+    );
+    return savePromise;
+};
+```
 
-#### Example 0 : How to use? Your code structure is as follows.
+## 3. Examples
+
+### Example 0 : How to use? Your code structure is as follows.
 * Backend code structure
 ```java
 package com.*.handler
@@ -108,7 +139,7 @@ function partialSave(){
 ```
 
 
-#### Example 1 : Common function `updateRiskAnalysis`
+### Example 1 : Common function `updateRiskAnalysis`
 
 * Example 1-backend 
 `C:\MIGGWProject\Workspace\r1\PolicyCenter\modules\configuration\gsrc\com\mig\edge\capabilities\quote\lob\common\handler\PartialSaveHandler.gs`

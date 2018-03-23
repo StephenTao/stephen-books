@@ -5,7 +5,54 @@
 | :-------------: | :-------------------| :----------------: | --------- |
 | 1.0      | initialization      |  Stephen Huang   | 3/20/2018 |
             
-### 3.  Examples
+### 2. Partial save common logic handle      
+
+#### 2.1 Backend code
+```java
+
+```
+
+#### 2.2 Frontend code
+`C:\MIGPortalDevelopment\EdgeGatewayPortal\app\customer\js\src\edge\quoteandbind\common\controllers\WizardFlowCtrl.js`
+
+##### 2.2.1 function partialSaveSubmissionWithValidation
+* `saveFunction`: do update function
+* `afterSaveProcess`: do saveFunction success will do afterSaveProcess function, handle response data.
+* `hideProgressMsg`: flag if show mask modal
+```javascript
+ctrl.partialSaveSubmissionWithValidation = function (saveFunction,afterSaveProcess,hideProgressMsg) {
+    var deferred = $q.defer();
+    var savePromise = deferred.promise;
+    var currentStepName = $state.current.name;
+    if($scope.quoteandbind.submission.draftData.isInPackage === true){
+        WizardService.setPolicyTypeByParentStep($state.current,$scope.quoteandbind.submission.draftData);
+    }
+    var highWatermarkStepName = $scope.quoteandbind.submission.draftData.highWaterMarkScreen;
+    $scope.quoteandbind.submission.draftData.currentScreen = $state.current.name;
+    if(!highWatermarkStepName || WizardService.isCurrentStateAfterState(currentStepName, highWatermarkStepName)) {
+        $scope.quoteandbind.submission.draftData.highWaterMarkScreen = currentStepName;
+    }
+    ctrl.setTargetScreenForDraftData();
+    //1. Modal progress is show control
+    if(!hideProgressMsg){
+        ModalService.showProgressDialog($filter('translate')(JobTypeService.text.savingMessage), savePromise);
+    }
+    //2. Do save function
+    savePromise = saveFunction();
+    savePromise.then(function (partialDraftData) {
+        DirtyFlagFactory.recordEndTime();
+        $scope.quoteandbind.submission.draftData.periodStatus = partialDraftData.periodStatus;
+        //3. Do call back function after save success.
+        afterSaveProcess(partialDraftData);
+        deferred.resolve();
+    }, function (error, status, headers) {
+        return deferred.reject([error, status, headers]);
+    });
+    return deferred.promise;    
+};
+```
+
+### 3. Examples
 
 #### Example 0 : How to use? Your code structure is as follows.
 * Backend code structure

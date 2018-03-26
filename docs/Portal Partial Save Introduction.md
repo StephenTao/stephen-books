@@ -9,6 +9,25 @@
 
 ### 2.1 Backend code
 ```java
+package com.mig.edge.capabilities.quote.lob.common.handler
+
+class PartialSaveBaseHandler implements IRpcHandler {
+
+  protected function init_update(bundle: Bundle, policyPeriod: PolicyPeriod, draftDataDto: DraftDataDTO) {
+    PortalSessionService_Ext.setTargetScreen(draftDataDto.TargetScreen)
+    policyPeriod=bundle.add(policyPeriod)
+    setPolicyPeriodToEditable(policyPeriod)
+    /*method canEdit will return false for submission status' quoted & approved*/
+    /*periodStatusChangeAfterQuote(policyPeriod)*/
+    policyPeriod.Job.PortalCurrentScreen_Ext = draftDataDto.CurrentScreen
+    policyPeriod.Job.PortalHighWaterMarkScreen_Ext = draftDataDto.HighWaterMarkScreen
+    //set current line under CPP, must prior to super.updateSubmission
+    if (policyPeriod.IsInPackage) {
+      policyPeriod.Job.PortalCurrentLineUnderCPP_Ext = draftDataDto.CurrentLineUnderCPP
+    }
+    policyPeriod.Job.IsPartialPersistentSave_Ext = false
+  }
+}
 
 ```
 
@@ -20,6 +39,7 @@ Function Parameters:
 * `saveFunction`: Required, do update function
 * `afterSaveProcess`: Optional, do saveFunction success will do afterSaveProcess function, handle response data.
 * `hideProgressMsg`: Optional, flag if show mask modal
+
 ```javascript
 ctrl.partialSaveSubmissionWithValidation = function (saveFunction,afterSaveProcess,hideProgressMsg) {
     var deferred = $q.defer();
@@ -60,6 +80,9 @@ Function Parameters:
 * `hideProgressMsg`: Optional, flag if show mask modal
 
 This method is a further encapsulation of the `partialSaveSubmissionWithValidation` method. This method has synchronized to the front-end data with the updated response data. When we use `defaultPartailSave` we only need to care about the implementation of the update method and additional logic processing after the update is successful. So we recommend using `defaultPartailSave`.
+
+this function have a issue about parameter `callback` function do not pass updated response data, so the call back function can't sync backend and frontend data.
+
 
 ```javascript
 ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){
@@ -200,7 +223,12 @@ function partialSave(){
     );
 }
 ... //ignore code
+```
 
+Why do not use `defaultPartailSave` method ?
+`defaultPartailSave` do not synchronized '$scope.quoteandbind.submission.draftData.riskAnalysis', so we use `partialSaveSubmissionWithValidation`, the method parameters of `afterSaveProcess` function can customize synchronized data.
+    
+```java
 //if use deafultPartialSave like this
 function defaultPartailSave() {
     $scope.defaultPartailSave(

@@ -5,6 +5,13 @@
 | :-------------: | :-------------------| :----------------: | --------- |
 | 1.0      | initialization      |  Stephen Huang   | 3/20/2018 |
             
+            
+## 1. What is `Portal Partial Save` ?
+
+### 1.1
+### 1.2
+### 1.3
+
 ## 2. Partial save common logic handle      
 
 ### 2.1 Backend code
@@ -17,9 +24,9 @@ This is super parital save handler class. It was already implemented basic funct
 Basic common function: 
 * `init_update` : before update, do some common logic update. such as `setPolicyPeriodToEditable`
 * `returnResultWithValidation` : after updated, do common logic handle response, such as handle exception
-    * period                    current policy period
-    * originalDraftData         before update DTO
-    * cb(period : PolicyPeriod) call back function
+    * `period`                    current policy period
+    * `originalDraftData`         before update DTO
+    * `cb(period : PolicyPeriod)` call back function
 ```java
 package com.mig.edge.capabilities.quote.lob.common.handler
 

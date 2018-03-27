@@ -8,6 +8,14 @@
 ## 2. Partial save common logic handle      
 
 ### 2.1 Backend code
+
+#### 2.1.1 Super handler class PartialSaveBaseHandler
+`C:\MIGGWProject\Workspace\r1\PolicyCenter\modules\configuration\gsrc\com\mig\edge\capabilities\quote\lob\common\handler\PartialSaveBaseHandler.gs` 
+
+This is super parital save handler class. It was already implemented basic function such as common data update and update validation handle. 
+Basic common function: 
+* `init_update` : before update, do some common logic update. such as `setPolicyPeriodToEditable`
+* `returnResultWithValidation` : after updated, do common logic handle response, such as handle exception
 ```java
 package com.mig.edge.capabilities.quote.lob.common.handler
 
@@ -16,7 +24,7 @@ class PartialSaveBaseHandler implements IRpcHandler {
   protected function init_update(bundle: Bundle, policyPeriod: PolicyPeriod, draftDataDto: DraftDataDTO) {
     PortalSessionService_Ext.setTargetScreen(draftDataDto.TargetScreen)
     policyPeriod=bundle.add(policyPeriod)
-    setPolicyPeriodToEditable(policyPeriod)
+    setPolicyPeriodToEditable(policyPeriod) // update current policyPeriod editable
     /*method canEdit will return false for submission status' quoted & approved*/
     /*periodStatusChangeAfterQuote(policyPeriod)*/
     policyPeriod.Job.PortalCurrentScreen_Ext = draftDataDto.CurrentScreen
@@ -26,6 +34,28 @@ class PartialSaveBaseHandler implements IRpcHandler {
       policyPeriod.Job.PortalCurrentLineUnderCPP_Ext = draftDataDto.CurrentLineUnderCPP
     }
     policyPeriod.Job.IsPartialPersistentSave_Ext = false
+  }
+  
+  public function returnResultWithValidation<T>(period : PolicyPeriod, originalDraftData: DraftDataDTO, cb(period : PolicyPeriod):T): DraftDataDTO{
+    var resultWithValidationMsg: DraftDataDTO
+    try {
+      originalDraftData.IsPartialPersistentSave = period.Job.IsPartialPersistentSave_Ext
+      resultWithValidationMsg = cb(period) as DraftDataDTO
+      resultWithValidationMsg.IsPartialPersistentSave = period.Job.IsPartialPersistentSave_Ext
+    } catch (ex: PortalScreenValidationException) {
+      return handlerValidationResultsLineSpecific(originalDraftData, ex.lineValidationResultDTO, originalDraftData, ex.productCode)
+    }catch(ex: java.lang.Exception){
+      var lvDto = new LineValidationResultDTO_Ext()
+      lvDto.HasErrors = true
+      lvDto.ErrorMessages = {"Quote save error: "+ex.toString()}
+      return handlerValidationResultsLineSpecific(originalDraftData, lvDto, originalDraftData, originalDraftData.ProductCode)
+    }
+    return handlerValidationResultsLineSpecific(resultWithValidationMsg, null, resultWithValidationMsg, resultWithValidationMsg.ProductCode)
+  }
+  
+  // handle validation result for specific line.
+  public function handlerValidationResultsLineSpecific(returnQdd: DraftDataDTO, validationResult: LineValidationResultDTO_Ext, incomingQdd: DraftDataDTO, productCode: String): DraftDataDTO {
+     //ingrone code
   }
 }
 

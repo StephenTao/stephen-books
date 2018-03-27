@@ -17,6 +17,9 @@ This is super parital save handler class. It was already implemented basic funct
 Basic common function: 
 * `init_update` : before update, do some common logic update. such as `setPolicyPeriodToEditable`
 * `returnResultWithValidation` : after updated, do common logic handle response, such as handle exception
+    * period                    current policy period
+    * originalDraftData         before update DTO
+    * cb(period : PolicyPeriod) call back function
 ```java
 package com.mig.edge.capabilities.quote.lob.common.handler
 
@@ -37,11 +40,12 @@ class PartialSaveBaseHandler implements IRpcHandler {
     policyPeriod.Job.IsPartialPersistentSave_Ext = false
   }
   
-  public function returnResultWithValidation<T>(period : PolicyPeriod, originalDraftData: DraftDataDTO, cb(period : PolicyPeriod):T): DraftDataDTO{
+  // handle exception 
+  public function returnResultWithValidation<T>(period : PolicyPeriod, originalDraftData: DraftDataDTO, cb(period : PolicyPeriod):T): DraftDataDTO{
     var resultWithValidationMsg: DraftDataDTO
     try {
       originalDraftData.IsPartialPersistentSave = period.Job.IsPartialPersistentSave_Ext
-      resultWithValidationMsg = cb(period) as DraftDataDTO
+      resultWithValidationMsg = cb(period) as DraftDataDTO // do call back function
       resultWithValidationMsg.IsPartialPersistentSave = period.Job.IsPartialPersistentSave_Ext
     } catch (ex: PortalScreenValidationException) {
       return handlerValidationResultsLineSpecific(originalDraftData, ex.lineValidationResultDTO, originalDraftData, ex.productCode)
@@ -54,7 +58,7 @@ class PartialSaveBaseHandler implements IRpcHandler {
     return handlerValidationResultsLineSpecific(resultWithValidationMsg, null, resultWithValidationMsg, resultWithValidationMsg.ProductCode)
   }
   
-  // handle validation result for specific line.
+  // set validation messages to related LOB
   public function handlerValidationResultsLineSpecific(returnQdd: DraftDataDTO, validationResult: LineValidationResultDTO_Ext, incomingQdd: DraftDataDTO, productCode: String): DraftDataDTO {
      //ingrone code
   }

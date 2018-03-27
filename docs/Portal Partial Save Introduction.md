@@ -6,11 +6,15 @@
 | 1.0      | initialization      |  Stephen Huang   | 3/20/2018 |
             
             
-## 1. What is `Portal Partial Save` ?
+## 1. What is `Portal Partial Save`?
 
-### 1.1
-### 1.2
-### 1.3
+### 1.1 Why do this?
+In oder to improve performance and user interface, partial save only update current screen data and refresh current screen data.
+### 1.2 How to do this?
+Backend using AOP programming ideas, add update curren screen function, add before and after update common function.
+### 1.3 Some tips
+* 
+* 
 
 ## 2. Partial save common logic handle      
 
@@ -24,9 +28,9 @@ This is super parital save handler class. It was already implemented basic funct
 Basic common function: 
 * `init_update` : before update, do some common logic update. such as `setPolicyPeriodToEditable`
 * `returnResultWithValidation` : after updated, do common logic handle response, such as handle exception
-    * `period`                    current policy period
-    * `originalDraftData`         before update DTO
-    * `cb(period : PolicyPeriod)` call back function
+    * `period`   --                 current policy period
+    * `originalDraftData` --         before update DTO
+    * `cb(period : PolicyPeriod)`  -- call back function
 ```java
 package com.mig.edge.capabilities.quote.lob.common.handler
 
@@ -56,7 +60,7 @@ class PartialSaveBaseHandler implements IRpcHandler {
       resultWithValidationMsg.IsPartialPersistentSave = period.Job.IsPartialPersistentSave_Ext
     } catch (ex: PortalScreenValidationException) {
       return handlerValidationResultsLineSpecific(originalDraftData, ex.lineValidationResultDTO, originalDraftData, ex.productCode)
-    }catch(ex: java.lang.Exception){
+    } catch(ex: java.lang.Exception){
       var lvDto = new LineValidationResultDTO_Ext()
       lvDto.HasErrors = true
       lvDto.ErrorMessages = {"Quote save error: "+ex.toString()}
@@ -191,44 +195,7 @@ ctrl.defaultPartailSave = function(func,callback,hideProgressMsg){
 };
 ```
 
-## 3. Examples
-
-### Example 0 : How to use? Your code structure is as follows.
-* Backend code structure
-```java
-package com.*.handler
-... //ignore code
-
-class SomeHandler extends PartialSaveBaseHandler {
-  ... //ignore code
-  
-  @JsonRpcRunAsInternalGWUser
-  @JsonRpcMethod
-  public function updateSomePart(quoteID: String, draftDataDto: DraftDataDTO) : DraftDataDTO {
-     //1. Get policyPeriod 
-     var job = getJob(quoteID)
-     var policyPeriod = job.ResultingBoundPeriod == null ? QuoteUtil.getBasePeriod(job) : job.ResultingBoundPeriod
-     
-     var result = returnResultWithValidation(policyPeriod, draftDataDto, \period -> {
-        gw.transaction.Transaction.runWithNewBundle(\ bundle -> {
-        init_update(bundle,period,draftDataDto)
-        //2. update some part data logic
-        doSomePartUpdateFn()
-      })
-      //3. Reacquire SomePart DTO data
-      draftDataDto.SomePart = getSomePartDTOFn()
-      //4. Reacquire some DraftDataDTO need updeted, such as PeriodStatus. 
-      draftDataDto.PeriodStatus = period.Status//this filed when submission Quoted back to update SomePart will change to Draft.
-      
-      return draftDataDto
-    })
-    return result
-  }
-  
-  ... //ignore code
-} 
-```
-* Frontend code structure
+#### 2.2.3 Frontend code structure
 ```javascript
 function partialSave(){
     //1. get the params, hideProgressMsg is not required
@@ -246,6 +213,7 @@ function partialSave(){
 }
 ```
 
+## 3. Examples
 
 ### Example 1 : Common function `updateRiskAnalysis`
 

@@ -13,6 +13,7 @@
 `C:\MIGGWProject\Workspace\r1\PolicyCenter\modules\configuration\gsrc\com\mig\edge\capabilities\quote\lob\common\handler\PartialSaveBaseHandler.gs` 
 
 This is super parital save handler class. It was already implemented basic function such as common data update and update validation handle. 
+
 Basic common function: 
 * `init_update` : before update, do some common logic update. such as `setPolicyPeriodToEditable`
 * `returnResultWithValidation` : after updated, do common logic handle response, such as handle exception
@@ -58,7 +59,48 @@ class PartialSaveBaseHandler implements IRpcHandler {
      //ingrone code
   }
 }
+```
 
+#### 2.1.2 Usage in partial Handler
+
+Code structure:
+* Partial save handler need extend `PartialSaveBaseHandler`
+* Using super class function get job entity
+* Using super function `returnResultWithValidation` and `init_update` like this.
+* After updated, we sholud synchronized response data and refresh DTO data.
+
+```java
+package com.*.handler
+... //ignore code
+
+class xxxHandler extends PartialSaveBaseHandler {
+  ... //ignore code
+  
+  @JsonRpcRunAsInternalGWUser
+  @JsonRpcMethod
+  public function updateFunction(quoteID: String, draftDataDto: DraftDataDTO) : DraftDataDTO {
+     //1. Get policyPeriod 
+     var job = getJob(quoteID)
+     var policyPeriod = job.ResultingBoundPeriod == null ? QuoteUtil.getBasePeriod(job) : job.ResultingBoundPeriod
+     
+     var result = returnResultWithValidation(policyPeriod, draftDataDto, \period -> {
+        gw.transaction.Transaction.runWithNewBundle(\ bundle -> {
+            init_update(bundle,period,draftDataDto)
+            //2. do update some part data logic
+            doSpecificUpdateLogic()
+        })
+        //3. Reacquire SomePart DTO data
+        draftDataDto.SomePart = getSomePartDTOFn()
+        //4. Reacquire some DraftDataDTO need updeted, such as PeriodStatus. 
+        draftDataDto.PeriodStatus = period.Status//this filed when submission Quoted back to update SomePart will change to Draft.
+      
+        return draftDataDto
+    })
+    return result
+  }
+  
+  ... //ignore code
+} 
 ```
 
 ### 2.2 Frontend code

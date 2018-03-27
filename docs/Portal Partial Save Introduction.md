@@ -20,7 +20,7 @@ Backend using AOP programming ideas, add update curren screen function, add befo
 
 ### 2.1 Backend code
 
-#### 2.1.1 Super handler class PartialSaveBaseHandler
+#### 2.1.1 Super handler class `PartialSaveBaseHandler`
 `C:\MIGGWProject\Workspace\r1\PolicyCenter\modules\configuration\gsrc\com\mig\edge\capabilities\quote\lob\common\handler\PartialSaveBaseHandler.gs` 
 
 This is super parital save handler class. It was already implemented basic function such as common data update and update validation handle. 
@@ -121,7 +121,7 @@ class xxxHandler extends PartialSaveBaseHandler {
 ### 2.2 Frontend code
 `C:\MIGPortalDevelopment\EdgeGatewayPortal\app\customer\js\src\edge\quoteandbind\common\controllers\WizardFlowCtrl.js`
 
-#### 2.2.1 Function partialSaveSubmissionWithValidation()
+#### 2.2.1 Function `partialSaveSubmissionWithValidation()`
 Function Parameters:
 * `saveFunction`: Required, do update function
 * `afterSaveProcess`: Optional, do saveFunction success will do afterSaveProcess function, handle response data.
@@ -160,7 +160,7 @@ ctrl.partialSaveSubmissionWithValidation = function (saveFunction,afterSaveProce
 };
 ```
 
-#### 2.2.2 Function defaultPartailSave()
+#### 2.2.2 Function `defaultPartailSave()`
 Function Parameters:
 * `func`: Required, do partail update function
 * `callback`: Optional, handle response validation result or special logic.

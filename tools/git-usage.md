@@ -17,7 +17,9 @@
 * `$ git remote add origin git@github.com:yourdom/yourproject.git`
 #### 1.8 提交本地仓库代码到远程
 * `$ git push -u origin master`
-
+#### 1.9 查看日志
+* `$git log` cmd style
+* `$gitk` 图形化界面
 ### 2. Command usage
 
 ### 参考

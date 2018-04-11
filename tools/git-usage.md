@@ -39,7 +39,9 @@ $git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.ex
 * `$gitk` 图形化界面
 ### 2. Command usage
 ```cmd
-$hit rebase //
+$git rebase //
+
+$git branch -a //view local and remote all branch
 ```
 
 #### 2.1 
